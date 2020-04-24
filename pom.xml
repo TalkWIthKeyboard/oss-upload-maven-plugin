@@ -4,16 +4,31 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.talkwithkeyboard</groupId>
   <artifactId>oss-upload-maven-plugin</artifactId>
-  <packaging>maven-plugin</packaging>
   <version>1.0.0</version>
+  <packaging>maven-plugin</packaging>
+
   <name>oss-upload-maven-plugin</name>
-  <url>http://maven.apache.org</url>
+  <description>The maven plugin can upload a file to aliyun OSS.</description>
+  <url>https://github.com/TalkWIthKeyboard/oss-upload-maven-plugin</url>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <encoding>UTF-8</encoding>
   </properties>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <name>OSS Snapshots Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <name>OSS Staging Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
   <dependencies>
     <dependency>
@@ -46,6 +61,81 @@
         <artifactId>maven-plugin-plugin</artifactId>
         <version>3.6.0</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <additionalparam>-Xdoclint:none</additionalparam>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <keyname>songwei</keyname>
+          <passphraseServerId>F89D850A380869289B47F51E9B9DC33DB8EFDF55</passphraseServerId>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo,manual</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Songv</name>
+      <email>miraculouscodersong@gmail.com</email>
+      <organization>jike</organization>
+      <url>https://github.com/TalkWIthKeyboard</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/TalkWIthKeyboard/oss-upload-maven-plugin.git</connection>
+    <developerConnection>scm:git:https://github.com/TalkWIthKeyboard/oss-upload-maven-plugin.git
+    </developerConnection>
+    <url>https://github.com/TalkWIthKeyboard/oss-upload-maven-plugin</url>
+    <tag>1.0.0</tag>
+  </scm>
 </project>

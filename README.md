@@ -1,6 +1,6 @@
 # Oss-upload-maven-plugin
 
-Uploads a file to OSS.
+Uploads a file to aliyun OSS.
 
 ## Configuration parameters
 
