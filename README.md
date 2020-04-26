@@ -23,13 +23,19 @@ Uploads a file to aliyun OSS.
 }
 ```
 
+## Access info chain
+
++ Get from `ACCESS_KEY_ID`,`ACCESS_KEY_SECRET` in `System.env`
++ Get from `accessKeyId`, `accessKeySecret` in Configuration
++ Get from `accessFile` in Configuration
+
 ## Upload a file example
 
 ```xml
 <plugin>
   <groupId>com.github.talkwithkeyboard</groupId>
   <artifactId>oss-upload-maven-plugin</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <configuration>
     <endpoint>http://oss-cn-hangzhou.aliyuncs.com</endpoint>
     <accessKeyId>test</accessKeyId>

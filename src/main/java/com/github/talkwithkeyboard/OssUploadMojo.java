@@ -23,6 +23,7 @@ import com.aliyun.oss.model.PutObjectResult;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Map;
 import java.util.Scanner;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -31,6 +32,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 @Mojo(name = "oss-upload")
 public class OssUploadMojo extends AbstractMojo {
+
+    private static final String ACCESS_KEY_ID_FILED = "ACCESS_KEY_ID";
+    private static final String ACCESS_KEY_SECRET_FILED = "ACCESS_KEY_SECRET";
 
     @Parameter(property = "oss-upload.endpoint", defaultValue = "http://oss-cn-hangzhou.aliyuncs.com")
     private String endpoint;
@@ -73,6 +77,10 @@ public class OssUploadMojo extends AbstractMojo {
     }
 
     private AccessInfo getAccessKeyAndAccessValue() throws MojoExecutionException {
+        if (System.getenv().containsKey(ACCESS_KEY_ID_FILED) &&
+            System.getenv().containsKey(ACCESS_KEY_SECRET_FILED)) {
+            return new AccessInfo(System.getenv());
+        }
         if (accessKeyId != null && accessKeySecret != null) {
             return new AccessInfo(accessKeyId, accessKeySecret);
         }
@@ -89,6 +97,7 @@ public class OssUploadMojo extends AbstractMojo {
             }
             return AccessInfo.fromJson(data.toString());
         }
+
         throw new MojoExecutionException("Access info is empty.");
     }
 
@@ -102,6 +111,11 @@ public class OssUploadMojo extends AbstractMojo {
 
         public AccessInfo() {
 
+        }
+
+        public AccessInfo(Map<String, String> envMap) {
+            this.accessKeyId = envMap.get(ACCESS_KEY_ID_FILED);
+            this.accessKeySecret = envMap.get(ACCESS_KEY_SECRET_FILED);
         }
 
         public AccessInfo(String accessKeyId, String accessKeySecret) {
